@@ -92,14 +92,14 @@ class Payment {
      *
      * @param $code
      * @param $realm_id
+     * @throws Exception
      */
     public function exchangeCodeForToken($code, $realm_id) {
         $request = $this->oauth2->createRequestToExchange($code);
         $response = $this->client->send($request);
         if($response->failed()) {
-            $code = $response->getStatusCode();
             $errorMessage = $response->getBody();
-            dd($errorMessage);
+            throw new Exception($errorMessage);
         } else {
             $array = json_decode($response->getBody(), true);
             $this->token->parseOauthToken($array, $realm_id)->save();
@@ -115,7 +115,6 @@ class Payment {
     public function deleteToken()
     {
         $this->setToken($this->token->remove());
-
         return $this;
     }
 

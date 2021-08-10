@@ -85,23 +85,4 @@ return [
     */
 
     'redirect_route' => env('QUICKBOOKS_REDIRECT_ROUTE'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Properties for control the "user" relationship in Token
-    |--------------------------------------------------------------------------
-    |
-    | The Token class has a "user" relationship, and these properties allow
-    | configuring the relationship.
-    |
-    */
-
-    'user' => [
-        'keys'  => [
-            'foreign' => 'user_id',
-            'owner'   => 'id',
-        ],
-        'model' => User::class,
-    ],
-
 ];

@@ -24,20 +24,7 @@ The package uses the [auto registration feature](https://laravel.com/docs/packag
 
 ## Configuration
 
-1. You will need a ```quickBooksToken``` relationship on your ```User``` model.  There is a trait named ```WebDEV\QuickBooks\Payments\HasQuickBooksToken```, which you can include on your ```User``` model, which will setup the relationship. To do this implement the following:
-
-Add ```use WebDEV\QuickBooks\Payments\HasQuickBooksToken;``` to your service container at the top of User.php
-and also add the trait within the class. For example:
-
-```php
-class User extends Authenticatable
-{
-    use Notifiable, HasQuickBooksToken;
-```
-    
-**NOTE: If your ```User``` model is not ```App/User```, then you will need to configure the path in the ```configs/quickbooks_payments.php``` as documented below.**
-
-2. Add the appropriate values to your ```.env```
+1. Add the appropriate values to your ```.env```
 
     #### Minimal Keys
     ```bash
@@ -54,7 +41,7 @@ class User extends Authenticatable
     QUICKBOOKS_REDIRECT_ROUTE=<string>          # A named route to force redirect after disconnecting
     ```
 
-3. _[Optional]_ Publish configs & views
+2. _[Optional]_ Publish configs & views
 
     #### Config
     A configuration file named ```quickbooks_payments.php``` can be published to ```config/``` by running...

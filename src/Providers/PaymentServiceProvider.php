@@ -4,6 +4,7 @@ namespace WebDev\QuickBooks\Payments\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use WebDEV\QuickBooks\Payments\Models\Token;
 use WebDEV\QuickBooks\Payments\Payment;
 
 /**
@@ -40,10 +41,10 @@ class PaymentServiceProvider extends LaravelServiceProvider
     public function register()
     {
         $this->app->bind(Payment::class, function (Application $app) {
-            $token = ($app->auth->user()->quickBooksToken)
-                ? : $app->auth->user()
-                    ->quickBooksToken()
-                    ->make();
+            $token = Token::query()->first();
+            if(!$token) {
+                $token = Token::query()->make();
+            }
 
             return new Payment($app->config->get('quickbooks_payments'), $token);
         });

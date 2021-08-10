@@ -69,7 +69,7 @@ class Filter
     {
         if (!$this->quickbooks->hasValidRefreshToken()) {
             $this->session->put('url.intended', $this->url_generator->to($request->path()));
-            return $this->redirector->route('quickbooks.connect');
+            return $this->redirector->route('quickbooks_payments.connect');
         }
 
         return $next($request);

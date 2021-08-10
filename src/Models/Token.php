@@ -5,7 +5,7 @@ namespace WebDEV\QuickBooks\Payments\Models;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Model Class
@@ -14,12 +14,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Token extends Model {
 
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'quickbooks_tokens';
+    protected $table = 'quickbooks_app_tokens';
 
     /**
      * The attributes that should be mutated to dates.
@@ -41,8 +43,7 @@ class Token extends Model {
         'access_token_expires_at',
         'realm_id',
         'refresh_token',
-        'refresh_token_expires_at',
-        'user_id',
+        'refresh_token_expires_at'
     ];
 
     /**
@@ -97,18 +98,7 @@ class Token extends Model {
      * @throws Exception
      */
     public function remove() {
-        $user = $this->user;
         $this->delete();
-        return $user->quickBooksToken()->make();
-    }
-
-    /**
-     * Belongs to user.
-     *
-     * @return BelongsTo
-     */
-    public function user() {
-        $config = config('quickbooks_payments.user');
-        return $this->belongsTo($config['model'], $config['keys']['foreign'], $config['keys']['owner']);
+        return $this->make();
     }
 }
