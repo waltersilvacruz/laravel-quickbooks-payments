@@ -1,0 +1,45 @@
+{
+    "name": "waltersilvacruz/laravel-quickbooks-payments",
+    "description": "PHP client wrapping the QuickBooks Payments SDK.",
+    "keywords": [
+        "quickbooks",
+        "payments",
+        "client",
+        "laravel",
+        "webdev"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Walter Cruz",
+            "email": "walter@tnx.com.br"
+        }
+    ],
+    "type": "library",
+    "require": {
+        "quickbooks/payments-sdk": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WebDEV\\QuickBooks\\Payments\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WebDEV\\QuickBooks\\Payments\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WebDEV\\QuickBooks\\Payments\\Providers\\ServiceProvider",
+                "WebDEV\\QuickBooks\\Payments\\Providers\\PaymentServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
