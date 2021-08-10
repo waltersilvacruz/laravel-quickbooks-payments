@@ -67,7 +67,7 @@ class ServiceProvider extends LaravelServiceProvider
             ], 'quickbooks-payments-migrations');
 
             $this->publishes([
-                __DIR__ . '/../../resources/views' => base_path('resources/views/vendor/quickbooks-payments'),
+                __DIR__ . '/../../resources/views' => base_path('resources/views/vendor/quickbooks_payments'),
             ], 'quickbooks-payments-views');
         }
     }

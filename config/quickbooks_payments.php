@@ -24,10 +24,10 @@ return [
 
     'data_service' => [
         'auth_mode'     => 'oauth2',
-        'base_url'      => env('QUICKBOOKS_API_URL', config('app.env') === 'production' ? 'Production' : 'Development'),
+        'base_url'      => env('QUICKBOOKS_API_URL', config('app.env') === 'production' ? 'production' : 'sandbox'),
         'client_id'     => config('app.env') === 'production' ? env('QUICKBOOKS_CLIENT_ID') : env('QUICKBOOKS_SANDBOX_CLIENT_ID'),
         'client_secret' => config('app.env') === 'production' ? env('QUICKBOOKS_CLIENT_SECRET') : env('QUICKBOOKS_SANDBOX_CLIENT_SECRET'),
-        'scope'         => 'com.intuit.quickbooks.accounting',
+        'scope'         => 'com.intuit.quickbooks.accounting com.intuit.quickbooks.payment openid profile email phone address',
     ],
 
     /*
