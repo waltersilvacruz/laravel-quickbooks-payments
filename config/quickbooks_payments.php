@@ -71,7 +71,7 @@ return [
             // Return URI that QuickBooks sends code to allow getting OAuth token
             'token'      => 'token',
         ],
-        'prefix'     => 'quickbooks',
+        'prefix'     => 'quickbooks_payments',
     ],
 
     /*

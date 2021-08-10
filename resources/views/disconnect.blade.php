@@ -13,11 +13,11 @@
 
     {{-- TODO: Text here to explain what is going on --}}
     {{-- TODO: Work on UI --}}
-    <a href="{{ route('quickbooks.disconnect') }}" onclick="event.preventDefault();document.getElementById('disconnect-form').submit();">
+    <a href="{{ route('quickbooks_payments.disconnect') }}" onclick="event.preventDefault();document.getElementById('disconnect-form').submit();">
         Disconnect
     </a>
 
-    <form id="disconnect-form" action="{{ route('quickbooks.disconnect') }}" method="POST" style="display: none;">
+    <form id="disconnect-form" action="{{ route('quickbooks_payments.disconnect') }}" method="POST" style="display: none;">
         {{ method_field('DELETE') }}
         {{ csrf_field() }}
     </form>

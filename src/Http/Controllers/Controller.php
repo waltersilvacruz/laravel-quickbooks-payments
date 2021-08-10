@@ -6,8 +6,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use WebDEV\QuickBooks\Payments\Client as QuickBooks;
-
+use WebDEV\QuickBooks\Payments\Payment as QuickBooks;
 use Illuminate\Routing\Controller as LaravelController;
 
 
@@ -34,13 +33,11 @@ class Controller extends LaravelController
     {
         // Give view to remove token if user already linked account
         if ($quickbooks->hasValidRefreshToken()) {
-            return $view_factory->make('quickbooks::disconnect')
-                ->with('company', $quickbooks->getDataService()
-                    ->getCompanyInfo());
+            return $view_factory->make('quickbooks_payments::disconnect');
         }
 
         // Give view to link account
-        return $view_factory->make('quickbooks::connect')
+        return $view_factory->make('quickbooks_payments::connect')
             ->with('authorization_uri', $quickbooks->authorizationUri());
     }
 
@@ -57,8 +54,8 @@ class Controller extends LaravelController
     {
         $quickbooks->deleteToken();
         $request->session()->flash('success', 'Disconnected from QuickBooks');
-        if(config('quickbooks.redirect_route')) {
-            return response()->redirectTo(route(config('quickbooks.redirect_route')));
+        if(config('quickbooks_payments.redirect_route')) {
+            return response()->redirectTo(route(config('quickbooks_payments.redirect_route')));
         } else {
             return $redirector->back();
         }
@@ -83,6 +80,6 @@ class Controller extends LaravelController
     {
         $quickbooks->exchangeCodeForToken($request->get('code'), $request->get('realmId'));
         $request->session()->flash('success', 'Connected to QuickBooks');
-        return $redirector->intended($url_generator->route('quickbooks.connect'));
+        return $redirector->intended($url_generator->route('quickbooks_payments.connect'));
     }
 }

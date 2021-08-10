@@ -52,7 +52,7 @@ class Token extends Model {
      *
      * @return bool
      */
-    public function getHasValidAccessTokenAttribute(): bool {
+    public function getHasValidAccessTokenAttribute() {
         return $this->access_token_expires_at && Carbon::now()->lt($this->access_token_expires_at);
     }
 
@@ -63,8 +63,29 @@ class Token extends Model {
      *
      * @return bool
      */
-    public function getHasValidRefreshTokenAttribute(): bool {
+    public function getHasValidRefreshTokenAttribute() {
         return $this->refresh_token_expires_at && Carbon::now()->lt($this->refresh_token_expires_at);
+    }
+
+    /**
+     * Parse OauthToken.
+     *
+     * Process the OAuth token & store it in the persistent storage
+     *
+     * @param array $oauth_token
+     * @param string $realm_id
+     * @return Token
+     */
+    public function parseOauthToken(array $oauth_token, string $realm_id)
+    {
+        if($oauth_token) {
+            $this->access_token = $oauth_token['access_token'];
+            $this->access_token_expires_at = date('Y-m-d H:i:s', time() + $oauth_token['expires_in']);
+            $this->realm_id = $realm_id;
+            $this->refresh_token = $oauth_token['refresh_token'];
+            $this->refresh_token_expires_at = date('Y-m-d H:i:s', time() + $oauth_token['x_refresh_token_expires_in']);
+        }
+        return $this;
     }
 
     /**
@@ -75,7 +96,7 @@ class Token extends Model {
      * @return Token
      * @throws Exception
      */
-    public function remove(): Token {
+    public function remove() {
         $user = $this->user;
         $this->delete();
         return $user->quickBooksToken()->make();
@@ -86,8 +107,8 @@ class Token extends Model {
      *
      * @return BelongsTo
      */
-    public function user(): BelongsTo {
-        $config = config('quickbooks.user');
+    public function user() {
+        $config = config('quickbooks_payments.user');
         return $this->belongsTo($config['model'], $config['keys']['foreign'], $config['keys']['owner']);
     }
 }

@@ -25,7 +25,7 @@ class PaymentServiceProvider extends LaravelServiceProvider
      *
      * @return string[]
      */
-    public function provides(): array
+    public function provides()
     {
         return [
             Payment::class
@@ -45,9 +45,9 @@ class PaymentServiceProvider extends LaravelServiceProvider
                     ->quickBooksToken()
                     ->make();
 
-            return new Payment($app->config->get('quickbooks'), $token);
+            return new Payment($app->config->get('quickbooks_payments'), $token);
         });
 
-        $this->app->alias(Payment::class, 'QuickBooks');
+        $this->app->alias(Payment::class, 'QuickBooksPayments');
     }
 }
