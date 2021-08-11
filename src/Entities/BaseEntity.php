@@ -44,7 +44,11 @@ class BaseEntity
             $msg = '';
             if($json->errors && is_array($json->errors)) {
                 foreach($json->errors as $error) {
-                    $msg .= $error->message . ' ';
+                    $msg .= $error->message;
+                    if(isset($error->moreInfo)) {
+                        $msg .= " {$error->moreInfo}";
+                    }
+                    $msg .= ' ';
                 }
             }
             return $msg;

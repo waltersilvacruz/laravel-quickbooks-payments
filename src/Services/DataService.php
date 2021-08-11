@@ -4,7 +4,7 @@ namespace WebDEV\QuickBooks\Payments\Services;
 
 use QuickBooksOnline\Payments\PaymentClient;
 use QuickBooksOnline\Payments\OAuth\OAuth2Authenticator;
-use WebDEV\QuickBooks\Payments\Entities\CreditCard;
+use WebDEV\QuickBooks\Payments\Entities\Charge;
 use WebDEV\QuickBooks\Payments\Models\Token;
 use WebDEV\QuickBooks\Payments\Exceptions\InvalidRefreshTokenException;
 use WebDEV\QuickBooks\Payments\Exceptions\RefreshTokenErrorException;
@@ -39,11 +39,11 @@ class DataService
     protected $oauth2;
 
     /**
-     * Card Entity
+     * Charge Entity
      *
-     * @var CreditCard
+     * @var Charge
      */
-    protected $cardEntity;
+    protected $chargeEntity;
 
     /**
      * Constructor
@@ -89,12 +89,12 @@ class DataService
     /**
      * Get card entity
      *
-     * @return CreditCard
+     * @return Charge
      */
-    public function CreditCard() {
-        if(!$this->cardEntity) {
-            $this->cardEntity = new CreditCard($this->client);
+    public function Charge() {
+        if(!$this->chargeEntity) {
+            $this->chargeEntity = new Charge($this->client);
         }
-        return $this->cardEntity;
+        return $this->chargeEntity;
     }
 }

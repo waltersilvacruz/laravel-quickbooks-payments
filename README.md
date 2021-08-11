@@ -85,7 +85,7 @@ $array = [
     "isEcommerce" => "true"
   ]
 ];
-$response = $quickbooks->getService()->CreditCard()->charge($array);
+$response = $quickbooks->getService()->Charge()->create($array);
 dd($response);
 ```
 
