@@ -77,12 +77,14 @@ class Token extends Model {
      * @param string $realm_id
      * @return Token
      */
-    public function parseOauthToken(array $oauth_token, string $realm_id)
+    public function parseOauthToken(array $oauth_token, string $realm_id = null)
     {
         if($oauth_token) {
             $this->access_token = $oauth_token['access_token'];
             $this->access_token_expires_at = date('Y-m-d H:i:s', time() + $oauth_token['expires_in']);
-            $this->realm_id = $realm_id;
+            if($realm_id) {
+                $this->realm_id = $realm_id;
+            }
             $this->refresh_token = $oauth_token['refresh_token'];
             $this->refresh_token_expires_at = date('Y-m-d H:i:s', time() + $oauth_token['x_refresh_token_expires_in']);
         }

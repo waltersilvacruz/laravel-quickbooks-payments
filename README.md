@@ -62,7 +62,7 @@ The package uses the [auto registration feature](https://laravel.com/docs/packag
 Here is an example of getting the company information from QuickBooks:
 
 ```php
-$client = app('QuickBooksPayments');
+$quickbooks = app('QuickBooksPayments');
 $array = [
   "amount" => "10.55",
   "currency" => "USD",
@@ -77,7 +77,7 @@ $array = [
         "postalCode" => "94086"
       ],
       "expMonth" => "02",
-      "expYear" => "2020",
+      "expYear" => "2024",
       "cvc" => "123"
   ],
   "context" => [
@@ -85,7 +85,7 @@ $array = [
     "isEcommerce" => "true"
   ]
 ];
-$response = $client->charge($array);
+$response = $quickbooks->getService()->CreditCard()->charge($array);
 dd($response);
 ```
 

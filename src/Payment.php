@@ -6,6 +6,7 @@ use Exception;
 use WebDEV\QuickBooks\Payments\Models\Token;
 use QuickBooksOnline\Payments\OAuth\OAuth2Authenticator;
 use QuickBooksOnline\Payments\PaymentClient;
+use WebDEV\QuickBooks\Payments\Services\DataService;
 
 /**
  * Class Payment
@@ -19,6 +20,13 @@ class Payment {
      * @var array
      */
     protected $configs;
+
+    /**
+     * DataService instance
+     *
+     * @var Token
+     */
+    protected $data_service;
 
     /**
      * The Token instance
@@ -55,7 +63,13 @@ class Payment {
             'redirect_uri' => route('quickbooks_payments.token'),
             'environment' => $this->configs['data_service']['base_url'],
         ]);
-        $this->client = new PaymentClient();
+
+        if(!$this->client) {
+            $this->client = new PaymentClient([
+                'access_token' => $this->token->access_token,
+                'environment' => $this->configs['data_service']['base_url']
+            ]);
+        }
     }
 
     /**
@@ -129,5 +143,19 @@ class Payment {
     {
         $this->token = $token;
         return $this;
+    }
+
+    /**
+     * Get DataService instance
+     *
+     * @return DataService
+     * @throws Exception
+     */
+    public function getService() {
+        if(!$this->data_service) {
+            $this->data_service = new DataService($this->client, $this->oauth2, $this->token);
+        }
+
+        return $this->data_service;
     }
 }
