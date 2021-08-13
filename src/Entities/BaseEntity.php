@@ -42,7 +42,7 @@ class BaseEntity
         $json = json_decode($error);
         if($json) {
             $msg = '';
-            if($json->errors && is_array($json->errors)) {
+            if(isset($json->errors) && is_array($json->errors)) {
                 foreach($json->errors as $error) {
                     $msg .= $error->message;
                     if(isset($error->moreInfo)) {

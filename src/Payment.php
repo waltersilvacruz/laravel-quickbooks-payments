@@ -153,7 +153,7 @@ class Payment {
      */
     public function getService() {
         if(!$this->data_service) {
-            $this->data_service = new DataService($this->client, $this->oauth2, $this->token);
+            $this->data_service = new DataService($this->client, $this->oauth2, $this->token, $this->configs);
         }
 
         return $this->data_service;

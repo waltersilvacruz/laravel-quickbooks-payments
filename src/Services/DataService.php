@@ -18,6 +18,13 @@ use Exception;
 class DataService
 {
     /**
+     * The configs to set up service
+     *
+     * @var array
+     */
+    protected $configs;
+
+    /**
      * Token object
      *
      * @var Token
@@ -51,12 +58,15 @@ class DataService
      * @param PaymentClient $client
      * @param OAuth2Authenticator $oauth2
      * @param Token $token
+     * @param array $configs
      * @throws InvalidRefreshTokenException
+     * @throws RefreshTokenErrorException
      */
-    public function __construct(PaymentClient $client, OAuth2Authenticator $oauth2, Token $token) {
+    public function __construct(PaymentClient $client, OAuth2Authenticator $oauth2, Token $token, array $configs) {
         $this->client = $client;
         $this->oauth2 = $oauth2;
         $this->token = $token;
+        $this->configs = $configs;
         if(!$this->token->getHasValidAccessTokenAttribute()) {
             $this->renewAccessToken();
         }
@@ -81,6 +91,10 @@ class DataService
 
             $array = json_decode($response->getBody(), true);
             $this->token->parseOauthToken($array)->save();
+            $this->client = new PaymentClient([
+                'access_token' => $this->token->access_token,
+                'environment' => $this->configs['data_service']['base_url']
+            ]);
         } catch(Exception $ex) {
             throw new RefreshTokenErrorException($ex->getMessage());
         }
